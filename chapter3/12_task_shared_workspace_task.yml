@@ -1,0 +1,19 @@
+apiVersion: tekton.dev/v1beta1
+kind: Task
+metadata:
+  name: read-task
+spec:
+  workspaces:
+    - name: shared-data
+      description: Workspace for sharing files between tasks
+  steps:
+    - name: read-task
+      image: alpine   
+      command: ["/bin/sh"]
+      args:
+        - -c
+        - |
+            echo "Starting read task - Reading file from workspace"
+            cat $(workspaces.shared-data.path)/message.txt
+            echo "End read task"
+  

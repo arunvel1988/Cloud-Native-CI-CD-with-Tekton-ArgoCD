@@ -1,0 +1,10 @@
+apiVersion: tekton.dev/v1beta1
+kind: TaskRun
+metadata:
+  name: task2-run
+spec:
+  taskRef:
+    name: task2
+  params:
+    - name: username
+      value: "devops"

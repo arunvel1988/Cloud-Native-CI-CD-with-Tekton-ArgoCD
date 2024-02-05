@@ -1,0 +1,21 @@
+apiVersion: tekton.dev/v1beta1
+kind: Task
+metadata:
+  name: write-task
+spec:
+  workspaces:
+    - name: shared-data
+      description: Workspace for sharing files between tasks
+  steps:
+    - name: start-step
+      image: alpine
+      
+      command: ["/bin/sh"]
+      args:
+        - -c
+        - |
+            echo "Starting initial task"
+            echo "Hello World!" > $(workspaces.shared-data.path)/message.txt
+            ls -la $(workspaces.shared-data.path)
+            echo "Ending initial task"
+
