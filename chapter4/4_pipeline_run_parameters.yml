@@ -1,0 +1,19 @@
+#!/bin/bash
+#Book Name: Cloud Native CI/CD with Tekton & ArgoCD
+#Authors: Arunvel Arunachalam/ Ajay Arunachalam
+#Purpose: # pipeline run for reusable task .. git clone another repository
+
+apiVersion: tekton.dev/v1beta1
+kind: PipelineRun
+metadata:
+  generateName: clone-build-push-run-
+spec:
+  pipelineRef:
+    name: my-ci-cd-pipeline
+  params:
+  - name: app-name
+    value: "appv2"
+  - name: git-url
+    value: "https://github.com/arunpep1988/appv2_docker"
+  - name: git-branch
+    value: "main"

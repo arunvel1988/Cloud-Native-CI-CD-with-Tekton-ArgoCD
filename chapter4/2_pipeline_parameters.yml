@@ -1,0 +1,26 @@
+#!/bin/bash
+#Book Name: Cloud Native CI/CD with Tekton & ArgoCD
+#Authors: Arunvel Arunachalam/ Ajay Arunachalam
+#Purpose: # pipeline yaml for reusable task
+
+apiVersion: tekton.dev/v1beta1
+kind: Pipeline
+metadata:
+  name: my-ci-cd-pipeline
+spec:
+  params:
+  - name: git-url
+    description: "Git repository URL"
+    type: string
+  - name: git-branch
+    description: "Git branch to clone"
+    type: string
+  tasks:
+  - name: git-clone
+    taskRef:
+      name: git-clone-task
+    params:
+    - name: url
+      value: $(params.git-url)
+    - name: branch
+      value: $(params.git-branch)

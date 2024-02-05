@@ -1,0 +1,30 @@
+#!/bin/bash
+#Book Name: Cloud Native CI/CD with Tekton & ArgoCD
+#Authors: Arunvel Arunachalam/ Ajay Arunachalam
+#Purpose: # pipeline to git clone from private repository
+
+apiVersion: tekton.dev/v1beta1
+kind: Pipeline
+metadata:
+  name: git-clone
+spec:
+  description: "Pipeline to clone"
+  params:
+  - name: repo-url
+    type: string
+  workspaces:
+  - name: shared-data
+  tasks:
+  - name: fetch-source
+    taskRef:
+      name: git-clone
+    workspaces:
+    - name: output
+      workspace: shared-data
+    params:
+    - name: url
+      value: $(params.repo-url)
+
+
+
+

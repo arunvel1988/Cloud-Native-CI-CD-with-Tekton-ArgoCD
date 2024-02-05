@@ -1,0 +1,26 @@
+###############
+# Reusable Task 
+##############
+
+#!/bin/bash
+#Book Name: Cloud Native CI/CD with Tekton & ArgoCD
+#Authors: Arunvel Arunachalam/ Ajay Arunachalam
+#Purpose: # reusable task with parameters
+
+apiVersion: tekton.dev/v1beta1
+kind: Task
+metadata:
+  name: git-clone-task
+spec:
+  params:
+  - name: url
+    description: "Git repository URL"
+    type: string
+  - name: branch
+    description: "Git branch to clone"
+    type: string
+  steps:
+  - name: git-clone
+    image: alpine/git
+    script: |
+      git clone -b $(params.branch) $(params.url) /workspace/source
