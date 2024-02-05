@@ -1,7 +1,8 @@
 #!/bin/bash
 #Book Name: Cloud Native CI/CD with Tekton & ArgoCD
-#Author: Arunvel Arunachalam
+#Authors: Arunvel Arunachalam/ Ajay Arunachalam
 #Purpose: Switching Kubernetes Context
+#Tested on Ubuntu 22.04
 
 # Get the current context
 current_context=$(kubectl config current-context)

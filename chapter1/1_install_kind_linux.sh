@@ -1,7 +1,8 @@
 #!/bin/bash
 #Book Name: Cloud Native CI/CD with Tekton & ArgoCD
 #Authors: Arunvel Arunachalam/ Ajay Arunachalam
-#Purpose: Automates the installation of Kubernetes in Docker (Kind)
+#Purpose: Automates the installation of Kubernetes in Docker (Kind).
+#Tested on Ubuntu 22.04
 
 
 # Specify the desired Kind version
