@@ -2,6 +2,13 @@
 
 Welcome to the code repository for the book "Cloud Native CI/CD with Tekton & ArgoCD." This repository is organized into chapters, with each chapter containing relevant code, Tekton files, and installation scripts.
 
+Note: Each folder has files names starting with number for e.g <1_kind_install.sh> this suggess to run scripts in same numerical order
+
+## Prerequisites
+Make sure you have the following prerequisites before using the code:
+- Desire to Learn
+- Never Give up
+
 ## Content Overview
 1. **chapter1:**
    - This directory contains Tekton Pipeline definitions used in the CI/CD workflows described in Chapter 1 of the book.
@@ -42,10 +49,7 @@ Welcome to the code repository for the book "Cloud Native CI/CD with Tekton & Ar
 1. Head to the specific chapter directory (e.g., `chapter2`) to find scripts for setting up Tekton and ArgoCD.
 2. Execute scripts following the provided instructions to simplify the installation process.
 
-## Prerequisites
-Make sure you have the following prerequisites installed before using the code:
-- Desire to Learn
-- Never Give up
+
 
 
 Feel free to explore, modify, and adapt the code according to your needs. If you have any questions or feedback, please open an issue or reach out.
