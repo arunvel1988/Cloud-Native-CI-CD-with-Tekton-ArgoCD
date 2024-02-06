@@ -1,0 +1,77 @@
+apiVersion: tekton.dev/v1beta1
+kind: Pipeline
+metadata:
+  name: git-clone-sonar-scan-build-push-deploy
+spec:
+  description: "Pipeline to clone, perform SonarQube scan, build, push, and deploy"
+  params:
+  - name: repo-url
+    type: string
+  - name: image-reference
+    type: string
+  workspaces:
+  - name: shared-data
+  - name: docker-credentials
+  - name: kubeconfig-dir
+  tasks:
+  - name: fetch-source
+    taskRef:
+      name: git-clone
+    workspaces:
+    - name: output
+      workspace: shared-data
+    params:
+    - name: url
+      value: $(params.repo-url)
+  - name: sonarqube-scan
+    taskRef:
+      name: sonarqube-scanner
+    workspaces:
+    - name: source
+      workspace: shared-data
+    params:
+    - name: SONAR_HOST_URL
+      value: https://sonarcloud.io  # Replace with your SonarQube server URL
+    - name: SONAR_PROJECT_KEY
+      value: testarunvel_test  # Replace with your SonarQube project key
+    - name: SONAR_ORGANIZATION
+      value: testarunvel
+    - name: SOURCE_TO_SCAN
+      value: "./application"
+    - name: SONAR_LOGIN
+      value: ""
+  - name: build-push
+    runAfter: ["sonarqube-scan"]
+    taskRef:
+      name: kaniko
+    workspaces:
+    - name: source
+      workspace: shared-data
+    - name: dockerconfig
+      workspace: docker-credentials
+    params:
+    - name: IMAGE
+      value: $(params.image-reference)
+  - name: deploy-manifests
+    runAfter: ["build-push"]
+    taskRef:
+      name: kubernetes-actions
+    workspaces:
+    - name: manifest-dir
+      workspace: shared-data
+    - name: kubeconfig-dir
+      workspace: kubeconfig-dir
+    params:
+      - name: image-reference
+        value: $(params.image-reference)
+      - name: script
+        value: |
+          ls -ltr
+          cd ./kubernetes-manifests
+          sed -i "s|image: .*|image: $(params.image-reference)|" deployment.yml
+          cat deployment.yml
+          kubectl apply -f deployment.yml
+          kubectl apply -f service.yml
+          echo "-----------New image deployed successfully------------------"
+          
+

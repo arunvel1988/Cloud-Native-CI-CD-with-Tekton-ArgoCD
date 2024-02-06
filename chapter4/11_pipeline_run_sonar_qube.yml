@@ -1,0 +1,25 @@
+#!/bin/bash
+#Book Name: Cloud Native CI/CD with Tekton & ArgoCD
+#Authors: Arunvel Arunachalam/ Ajay Arunachalam
+#Purpose: # secret to clone code from private repository
+
+
+apiVersion: tekton.dev/v1beta1
+kind: PipelineRun
+metadata:
+  generateName: clone-build-push-run-
+spec:
+  pipelineRef:
+    name: git-clone-sonar-scan-build-push
+  workspaces:
+    - name: shared-data
+      persistentVolumeClaim:
+        claimName: sonar-source-pvc
+    - name: docker-credentials
+      secret:
+        secretName: docker-credentials
+  params:
+    - name: repo-url
+      value: "https://github.com/arunvel1988/appv1_docker"
+    - name: image-reference
+      value: arunvel1988/tekton-argobook1

@@ -1,0 +1,38 @@
+apiVersion: tekton.dev/v1beta1
+kind: Pipeline
+metadata:
+  name: git-clone-sonar-scan
+spec:
+  description: "Pipeline to clone and perform SonarQube scan"
+  params:
+  - name: repo-url
+    type: string
+  workspaces:
+  - name: shared-data
+  tasks:
+  - name: fetch-source
+    taskRef:
+      name: git-clone
+    workspaces:
+    - name: output
+      workspace: shared-data
+    params:
+    - name: url
+      value: $(params.repo-url)
+  - name: sonarqube-scan
+    taskRef:
+      name: sonarqube-scanner
+    workspaces:
+    - name: source
+      workspace: shared-data
+    params:
+    - name: SONAR_HOST_URL
+      value: https://sonarcloud.io  # Replace with your SonarQube server URL
+    - name: SONAR_PROJECT_KEY
+      value: testarunvel_test  # Replace with your SonarQube project key
+    - name: SONAR_ORGANIZATION
+      value: testarunvel
+    - name: SOURCE_TO_SCAN
+      value: "./application"
+    - name: SONAR_LOGIN
+      value: ""
