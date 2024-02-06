@@ -1,8 +1,7 @@
 #!/bin/bash
 #Book Name: Cloud Native CI/CD with Tekton & ArgoCD
 #Authors: Arunvel Arunachalam/ Ajay Arunachalam
-#Purpose: # secret to clone code from private repository
-
+#Purpose: # pipelinerun to clone and scan code for static analysis
 
 apiVersion: tekton.dev/v1beta1
 kind: PipelineRun

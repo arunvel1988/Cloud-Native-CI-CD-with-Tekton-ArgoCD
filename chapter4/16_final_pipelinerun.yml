@@ -1,3 +1,10 @@
+#!/bin/bash
+#Book Name: Cloud Native CI/CD with Tekton & ArgoCD
+#Authors: Arunvel Arunachalam/ Ajay Arunachalam
+#Purpose: # pipelinerun to clone,scan code for static analysis, build and push docker image to private registry and also deploy manifests to kubernetes cluster.
+
+
+
 apiVersion: tekton.dev/v1beta1
 kind: PipelineRun
 metadata:

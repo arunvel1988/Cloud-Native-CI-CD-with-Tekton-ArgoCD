@@ -1,3 +1,7 @@
+#!/bin/bash
+#Book Name: Cloud Native CI/CD with Tekton & ArgoCD
+#Purpose:  sonarqube-scanner task
+
 apiVersion: tekton.dev/v1beta1
 kind: Task
 metadata:
