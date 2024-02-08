@@ -1,0 +1,22 @@
+
+apiVersion: triggers.tekton.dev/v1alpha1
+kind: EventListener
+metadata:
+  name: clone-build-push-event-listener
+spec:
+  serviceAccountName: service-tekton-triggers-sa
+  triggers:
+    - name: clone-build-push-trigger
+      interceptors:
+        - ref:
+            name: "cel"
+            kind: ClusterInterceptor
+            apiVersion: triggers.tekton.dev/v1alpha1
+          params:
+            - name: "filter"
+              value: >
+                header.match('x-github-event', 'pull_request') && body.action in ['opened', 'synchronize']
+      bindings:
+        - ref: clone-build-push-binding
+      template:
+        ref: clone-build-push-run-template
