@@ -1,0 +1,31 @@
+apiVersion: argoproj.io/v1alpha1
+kind: ApplicationSet
+metadata:
+  name: my-application-set
+  namespace: openshift-gitops
+spec:
+  generators:
+  - list:
+      elements:
+      - cluster: dev-cluster
+        url: https://api.dev-cluster.example.com:6443
+      - cluster: test-cluster
+        url: https://api.test-cluster.example.com:6443
+      - cluster: prod-cluster
+        url: https://api.prod-cluster.example.com:6443
+  template:
+    metadata:
+      name: '{{cluster}}-my-app'
+    spec:
+      project: default
+      syncPolicy:
+        automated:
+          prune: true
+          selfHeal: true
+      source:
+        repoURL: https://github.com/your-username/your-repo.git
+        targetRevision: main
+        path: applicationsets/my-app/{{cluster}}
+      destination:
+        server: '{{url}}'
+        namespace: my-app

@@ -1,0 +1,33 @@
+apiVersion: argoproj.io/v1alpha1
+kind: ApplicationSet
+metadata:
+  name: color-applicationset
+  namespace: argocd
+spec:
+  generators:
+  - list:
+      elements:
+      - namespace: dev
+      - namespace: test
+  template:
+    metadata:
+      # Will generate applications with different names, for example (dev-color-app, test-color-app, etc.)
+      name: '{{namespace}}-color-app'
+    spec:
+      # Applications will be in the default project for ArgoCD
+      project: default
+      source:
+        repoURL: https://github.com/arunvel1988/application_set_argocd
+        targetRevision: HEAD
+        path: '{{namespace}}'
+      destination:
+        # Default cluster as destination, you can define multiple clusters in the ArgoCD UI
+        server: https://kubernetes.default.svc
+        # Will deploy to different namespaces as different destinations
+        namespace: '{{namespace}}'
+      syncPolicy:
+        automated:
+          prune: true
+          selfHeal: true
+        syncOptions:
+          - CreateNamespace=true
